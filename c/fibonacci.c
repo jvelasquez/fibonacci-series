@@ -8,13 +8,17 @@ int fibonacci(int x)
    return fibonacci(x - 1) + fibonacci(x - 2);
 }
  
-int main()
+int main(int argc, char *argv[])
 {
+
+   // initial check, argument has to be only one!
+   if (argc != 2) return 127;
+
+   //TODO check if the argument is a valid number >= 0   
+
    int n, first = 0, second = 1, next, c;
- 
-   n = 22;
-   // printf("Enter the number of terms\n");
-   // scanf("%d",&n);
+
+   n = atoi(argv[1]);
  
    printf("First %d terms of Fibonacci series are :-\n",n);
  
