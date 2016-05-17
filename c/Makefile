@@ -1,2 +1,2 @@
 fibonacci: fibonacci.c
-	gcc -o fibonacci fibonacci.c
+	gcc -o fibonacci.executable fibonacci.c
