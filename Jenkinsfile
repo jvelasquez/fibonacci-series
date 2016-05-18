@@ -11,4 +11,5 @@ node {
    echo 'Running performance and load test' 
    stage 'deploy to prod' 
    echo 'Deployed to Production'
+   echo 'Changed in github directly'
 }
