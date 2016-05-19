@@ -25,6 +25,12 @@ int main(int argc, char *argv[])
          next = first + second;
          first = second;
          second = next;
+         // if the previous is greater than the next one abort
+         if ( first > second )
+         {
+            printf("ERROR: Overflow\n");
+            return 127;
+         }
       }
       printf("%lu\n",next);
    }
