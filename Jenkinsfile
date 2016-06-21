@@ -1,15 +1,35 @@
-node {
-   stage 'Checkout the source code '
-   echo "Source code checked"
-   stage 'Run unit tests'
-   echo 'Running Unit tests'
-   stage 'Run acceptance tests'
-   echo 'Running acceptance tests'
-   stage 'deploy to test environment'
-   echo 'deploying app to test'
-   stage 'Run performace-Load test' 
-   echo 'Running performance and load test' 
-   stage 'deploy to prod' 
-   echo 'Deployed to Production'
-   echo 'Changed in github directly'
+stage "Build"
+ 
+node ('DockerHost'){
+    docker.image('slave-gcc').inside {
+        git 'https://github.com/jvelasquez/fibonacci-series.git'
+        sh 'MAKE=$(which make) && cd c && $MAKE && cd ..'
+        sh 'ls -ltarh c'
+        stash includes: 'c/*.executable', name: 'build'
+    }
 }
+ 
+stage "Test"
+ 
+parallel (
+    "Basic Test" : {
+        node ('DockerHost'){
+            docker.image('slave-gcc').inside {
+                unstash 'build'
+                sh 'ls -ltarh'
+                sh 'c/fibonacci.executable 10'
+            }
+        }
+    },
+    "Complex Test 90" : {
+        node ('DockerHost'){
+            docker.image('slave-gcc').inside {
+                unstash 'build'
+                sh 'ls -ltarh'
+                sh 'c/fibonacci.executable 90'
+            }
+        }
+    }
+)
+ 
+stage "Staging"
