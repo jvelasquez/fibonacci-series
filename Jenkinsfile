@@ -33,3 +33,4 @@ parallel (
 )
  
 stage "Staging"
+input message: "Are you sure?"
